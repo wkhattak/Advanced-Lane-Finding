@@ -29,7 +29,7 @@ I then used the output `objpoints` and `imgpoints` to compute the camera calibra
 
 ![camera calibration](/output_images/camera_calib.jpg)
 
-Next, I applied the above distortion correction to the test image using the `cv2.undistort()` function, *Step 2: Image Undistort*, and obtained this result: 
+Next, I applied the above distortion correction to the test image using the `cv2.undistort()` function, (code cell *Step 2: Image Undistort*), and obtained this result: 
 
 ![image undistort](/output_images/calib_undistort.jpg)
 
@@ -42,7 +42,7 @@ To demonstrate this step, I applied the `undistort()` function to the test image
 
 #### 2. Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a thresholded binary image.  Provide an example of a binary image result.
 
-I used a combination of color and gradient thresholds to generate a binary image (thresholding steps at lines # through # in `another_file.py`).  Here's an example of my output for this step.  (note: this is not actually from one of the test images)
+I started off by defining functions for color and gradient thresholds to generate a binary image (code cell *Step 3: Image Thresholding*). Gradient thresholding functions include `abs_sobel_thresh(), direction_threshold()` and `magnitude_threshold()`, all based on `cv2.Sobel()` function. Color thresholding functions include `color_threshold_hls(), color_threshold_rgb()` and `color_threshold_lab()` functions.Here's an example of my output for this step.  
 
 ![alt text][image3]
 
