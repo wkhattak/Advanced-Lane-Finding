@@ -21,8 +21,8 @@ For a detailed description of this project, please view the [project writeup](./
 * **test_images:** Directory containing sample images for testing
 * **output_images:** Directory containing sample processed images
 * **camera_cal:** Directory containing 17 chessboard images for camera calibration
-* **project_video.mp4** Video clip for testing the image processing pipeline
-* **project_video_output.mp4** Processed video clip via the image processing pipeline
+* **project_video.mp4:** Video clip for testing the image processing pipeline
+* **project_video_output.mp4:** Processed video clip via the image processing pipeline
 * **Project.html:** Html output of the Jupyter notebook
 * **Project.ipynb:** Jupyter notebook containing the Python source code
 * **README.md:** Project readme file
