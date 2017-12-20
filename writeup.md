@@ -104,6 +104,12 @@ Once I had the lane lines identified and the lane information at hand, I plotted
 
 ---
 
+To see the the above operations in action as a pipeline, I applied them on the supplied test images. here's a sample of the output:
+
+![test images pipeline](/output_images/test_images.jpg)
+
+---
+
 ### Pipeline (video)
 
 #### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (wobbly lines are ok but no catastrophic failures that would cause the car to drive off the road!).
