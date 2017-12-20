@@ -31,14 +31,14 @@ I then used the output `objpoints` and `imgpoints` to compute the camera calibra
 
 Next, I applied the above distortion correction to the test image using the `cv2.undistort()` function, *Step 2: Image Undistort*, and obtained this result: 
 
-![image undistort](/output_images/undistort.jpg)
+![image undistort](/output_images/calib_undistort.jpg)
 
 ### Pipeline (single images)
 
 #### 1. Provide an example of a distortion-corrected image.
 
-To demonstrate this step, I will describe how I apply the distortion correction to one of the test images like this one:
-![alt text][image2]
+To demonstrate this step, I applied the `undistort()` function to the test image, bearing the following result:
+![image undistort](/output_images/undistort.jpg)
 
 #### 2. Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a thresholded binary image.  Provide an example of a binary image result.
 
