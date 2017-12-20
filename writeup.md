@@ -104,7 +104,7 @@ Once I had the lane lines identified and the lane information at hand, I plotted
 
 ---
 
-To see the the above operations in action as a pipeline, I applied them on the supplied test images. here's a sample of the output:
+To see the the above operations in action as a pipeline, I applied them on the supplied test images. Here's a sample of the output:
 
 ![test images pipeline](/output_images/test_images.jpg)
 
