@@ -31,7 +31,7 @@ I then used the output `objpoints` and `imgpoints` to compute the camera calibra
 
 Next, I applied the above distortion correction to the test image using the `cv2.undistort()` function, (code cell *Step 2: Image Undistort*), and obtained this result: 
 
-![image undistort](/output_images/calib_undistort.jpg)
+![calibration undistort](/output_images/calib_undistort.jpg)
 
 ### Pipeline (single images)
 
@@ -46,37 +46,22 @@ To demonstrate this step, I applied the `undistort()` function to the test image
 I started off by defining functions for color and gradient thresholds to generate a binary image (code cell *Step 3: Image Thresholding*). Gradient thresholding functions include `abs_sobel_thresh(), direction_threshold()` and `magnitude_threshold()`, all based on `cv2.Sobel()` function. Color thresholding functions include `color_threshold_hls(), color_threshold_rgb()` and `color_threshold_lab()` functions. These aforementioned functions are then tied together inside the `combine_grad_mag_dir_color_threshold()` function. At first I combined all both the gradient and color thresholds, however, after numerous tests, the best solution was to only use color thresholding based on *RGB* and *Lab* thresholding. The *HLS* thresholding was resulting in extraneous pixels 
  that create issues when line detection is run later on, hence it was not used. Here's an example of my output for this step.  
 
-![image undistort](/output_images/thresholded.jpg)
+![thresholded](/output_images/thresholded.jpg)
 
 #### 3. Describe how (and identify where in your code) you performed a perspective transform and provide an example of a transformed image.
 
-The code for my perspective transform includes a function called `warper()`, which appears in lines 1 through 8 in the file `example.py` (output_images/examples/example.py) (or, for example, in the 3rd code cell of the IPython notebook).  The `warper()` function takes as inputs an image (`img`), as well as source (`src`) and destination (`dst`) points.  I chose the hardcode the source and destination points in the following manner:
-
-```python
-src = np.float32(
-    [[(img_size[0] / 2) - 55, img_size[1] / 2 + 100],
-    [((img_size[0] / 6) - 10), img_size[1]],
-    [(img_size[0] * 5 / 6) + 60, img_size[1]],
-    [(img_size[0] / 2 + 55), img_size[1] / 2 + 100]])
-dst = np.float32(
-    [[(img_size[0] / 4), 0],
-    [(img_size[0] / 4), img_size[1]],
-    [(img_size[0] * 3 / 4), img_size[1]],
-    [(img_size[0] * 3 / 4), 0]])
-```
-
-This resulted in the following source and destination points:
+The code for my perspective transform includes a function called `warp()` (code cell *Step 4: Image Warping*).  The `warp()` function takes as input an image `img` and then based on the `src_points` & `dest_points`, I used the `cv2.getPerspectiveTransform()` to obtain the *transform matrix* and the *inverse trasnform matrix*. Next, I used the `cv2.warpPerspective()` to perform the actual warping operation. The *inverse trasnform matrix* is used later to project the lane area on the original image. For warping, I chose to hardcode the source and destination points in the following manner:
 
 | Source        | Destination   | 
 |:-------------:|:-------------:| 
-| 585, 460      | 320, 0        | 
-| 203, 720      | 320, 720      |
-| 1127, 720     | 960, 720      |
-| 695, 460      | 960, 0        |
+| 570, 470      | 400, 0        | 
+| 720, 470      | 900, 0      |
+| 1050, 690     | 900, 720      |
+| 245, 690     | 400, 720       |
 
 I verified that my perspective transform was working as expected by drawing the `src` and `dst` points onto a test image and its warped counterpart to verify that the lines appear parallel in the warped image.
 
-![alt text][image4]
+![warped](/output_images/warped.jpg)
 
 #### 4. Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
 
