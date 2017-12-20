@@ -1,4 +1,4 @@
-**Advanced Lane Finding Project**
+# Advanced Lane Finding Project
 
 The goals / steps of this project are the following:
 
@@ -11,7 +11,7 @@ The goals / steps of this project are the following:
 7. Warp the detected lane boundaries back onto the original image.
 8. Output visual display of the lane boundaries and numerical estimation of lane curvature and vehicle position.
 
-## [Rubric](https://review.udacity.com/#!/rubrics/571/view) Points
+## [Rubric Points](https://review.udacity.com/#!/rubrics/571/view)
 
 ### Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
 
@@ -83,6 +83,12 @@ right_fit = np.polyfit(righty, rightx, 2)
 Here's the output of the window search on the test image:
 
 ![window search](/output_images/window_search.jpg)
+
+Although the `find_lane_lines_with_window_search()` function is quite handy for detecting lane-line pixels, however, it's processing intensive as it is based on the window search technique. Because the images in a video are linked with each other, hence, we can use this fact to perform lane-line pixels search in the current frame roughly at the same place where lines were detected in the previous frame. This way we don't have to employ the window-based  processing intensive search. This is exactly the logic that the `find_lane_lines()` function embodies. It requires the previously fitted lines and a margin (`left_fit, right_fit, margin` parameters) to be passed in. Based on the `margin`, then it finds those pixels that are within this `margin` of the left & right fitted lines. New left & right lines are then fitted based on these found pixels. 
+
+Here's the output of the `find_lane_lines()` function on the test image:
+
+![intelligent search](/output_images/intel_search.jpg)
 
 #### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
 
