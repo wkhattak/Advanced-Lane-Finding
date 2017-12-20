@@ -65,9 +65,24 @@ I verified that my perspective transform was working as expected by drawing the 
 
 #### 4. Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
 
-Then I did some other stuff and fit my lane lines with a 2nd order polynomial kinda like this:
+Having obtained the warped image, I proceeded towards identifying lane-line pixels by first getting a histogram of the warped image (3/4 of image height approx.) as below (code cell *Step 5: Image Histogram*):
 
-![alt text][image5]
+![histogram](/output_images/histogram.jpg)
+
+The positions of the peaks in the histogram are then used as the start points for identification of the lane-line pixels.
+
+The actual process of line identification happens in functions `find_lane_lines_with_window_search()` & `find_lane_lines()` (code cell *Step 6: Finding Lane Lines (Window Search & Targeted Search)*). 
+
+The `find_lane_lines_with_window_search()` function performs line search from scratch based on the histogram technique & using window-based strategy. First a histogram is built and then the peaks in the histogram are used as the base for starting the line search. The image is divided into `n` number of windows (`nwindows` parameter) vertically. The horizontal size of these windows is based on the +/- `margin` parameter. The search starts from the bottom & then moves up. For each window, if the specified pixels (`minpix` parameter)  are identified then the next window is re-centered based on the mean position of the found pixels. In the end, lines are fit based on the identified line pixels with a 2nd order polynomial.
+
+```python
+left_fit = np.polyfit(lefty, leftx, 2)
+right_fit = np.polyfit(righty, rightx, 2)
+``` 
+
+Here's the output of the window search on the test image:
+
+![window search](/output_images/window_search.jpg)
 
 #### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
 
