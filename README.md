@@ -1,7 +1,7 @@
 # Project: Advanced Lane Finding
 ## Overview   
    
-This project is about writing a software pipeline to identify the lane boundaries in a video mainly using computer vision techniques via [Open CV](https://opencv.org/) library. Either individual images can be fed or a video clip can be used as an input. 
+This project is about writing a software pipeline to identify the lane boundaries in a video mainly using computer vision techniques via [Open CV](https://opencv.org/) library.
 
 ## How Does It Work?
 The logic comprises an image processing pipeline with the following steps:
@@ -15,16 +15,16 @@ The logic comprises an image processing pipeline with the following steps:
 7. Warp the detected lane boundaries back onto the original image.
 8. Output visual display of the lane boundaries and numerical estimation of lane curvature and vehicle position.
 
-For video clips, same logic is applied by processing individual frames.
+For a detailed description of this project, please view the [project writeup](./writeup.md).
 
 ## Directory Structure
 * **test_images:** Directory containing sample images for testing
-* **test_images_output:** Directory containing processed images
-* **test_videos:** Directory containing sample videos for testing
-* **test_videos_output:** Directory containing processed videos
-* **writeup_images:** Directory containing images for project writeup
-* **P1.html:** Html output of the Python notebook
-* **P1.ipynb:** Python notebook containing the source code
+* **output_images:** Directory containing sample processed images
+* **camera_cal:** Directory containing 17 chessboard images for camera calibration
+* **project_video.mp4** Video clip for testing the image processing pipeline
+* **project_video_output.mp4** Processed video clip via the image processing pipeline
+* **Project.html:** Html output of the Jupyter notebook
+* **Project.ipynb:** Jupyter notebook containing the Python source code
 * **README.md:** Project readme file
 * **writeup.md:** project writeup file containing detailed information about the inner workings of this project
 
@@ -38,40 +38,22 @@ For video clips, same logic is applied by processing individual frames.
 
 
 ## Usage/Examples
-**Images**
 
-*Raw Hough Lines*
 ```python
-image_list = os.listdir("test_images/")
-for image_name in image_list:
-    full_image_path = 'test_images/' + image_name
-    find_lane_lines_raw(full_image_path)
-```
+log_file = open('./log.txt', 'w')                     
+l_line = Line()
+l_line.direction = 'Left'
+r_line = Line()
+r_line.direction = 'Right'
+lane = Lane()
+frame_counter = 0
 
-*Extrapolated Lane Lines*
-```python
-image_list = os.listdir("test_images/")
-for image_name in image_list:
-    full_image_path = 'test_images/' + image_name
-    find_lane_lines(full_image_path)
-```
+video_output_raw = './project_video_output.mp4'
+clip1_raw = VideoFileClip('./project_video.mp4')
+video_clip_raw = clip1_raw.fl_image(process_frame) 
+%time video_clip_raw.write_videofile(video_output_raw, audio=False)
 
-**Video**
-
-*Raw Hough Lines*
-```python
-white_output_raw = 'test_videos_output/raw-solidWhiteRight.mp4'
-clip1_raw = VideoFileClip("test_videos/solidWhiteRight.mp4")
-white_clip_raw = clip1_raw.fl_image(process_image_raw_lines) 
-%time white_clip_raw.write_videofile(white_output_raw, audio=False)
-```
-
-*Extrapolated Lane Lines*
-```python
-white_output = 'test_videos_output/solidWhiteRight.mp4'
-clip1 = VideoFileClip("test_videos/solidWhiteRight.mp4")
-white_clip = clip1.fl_image(process_image) 
-%time white_clip.write_videofile(white_output, audio=False)
+log_file.close()
 ```
 
 ## Troubleshooting
