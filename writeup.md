@@ -114,7 +114,7 @@ To see the the above operations in action as a pipeline, I applied them on the s
 
 #### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (wobbly lines are ok but no catastrophic failures that would cause the car to drive off the road!).
 
-Here's a [link to my video result](./project_video.mp4)
+Here's a [link to my video result](./project_video_output.mp4)
 
 ---
 
@@ -122,4 +122,17 @@ Here's a [link to my video result](./project_video.mp4)
 
 #### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
-Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
+The most time consuming part of this project was getting a binary thresholded image using gradient & color thresholding techniques. In the start, when using example images without any shadows or light colored tarmac, using a combination of HLS, RGB, Lab & gradient thresholding seemed to produce good results. However, when the same logic was tested on images with shadows & non-uniform road color, non-lane line pixels were also being highlighted. In the end, only R & G channels from RGB colorspace and L channel from Lab colorspace was used for thresholding that works in a variety of road conditions. 
+
+The other most important element was determining if the found lines are actually the try lane lines (code cell *Sanity Checks (Lines & Lanes)*). The `are_lines_parallel()` function declares lines as parallel if the top & bottom lane width is less than `0.75` meter. The `is_lane_width_ok()` function declares a lane to be ok if the lane width (average of top & bottom widths) is between `3.2` and `4.2` meters i.e. taking into account an error of +/- `0.5` meter from minimum lane width of `3.7` meters as per U.S. regulations.
+
+The current video processing pipeline (code cell *Main Pipeline Function*) first checks if the lines were detected in the previous frame. If yes then `find_lane_lines()` function is used to find lines else `find_lane_lines_with_window_search()` is used. If lines are found then sanity checks are performed, else best fit (average fit frame from last five frames) is used to draw the lane polygon. Log shows that the best fit was used for only four frames in the [project video](./project_video.mp4).
+
+Although the current pipeline works well on the [project video](./project_video.mp4), it's not robust enough to work on the challenge & harder challenge videos. The main contributing factor is the not so optimum image thresholding. The image thresholding can be be made more robust by finding the right combination of HLS & gradient thresholding techniques. Also, the lane sanity check may further benefit through the inclusion of a proper curvature check. Although a *curvature check* (`is_curvature_ok()`) was initially implemented, the check in its current form was not meaningful, hence it was omitted from sanity checking. 
+
+---
+
+### References
+
+* https://github.com/opencv/opencv/blob/master/samples/python/calibrate.py
+  
